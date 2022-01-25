@@ -1,5 +1,7 @@
 <template>
-  <Tutorial/>
+  <div id="app">
+    <Header />
+  </div>
 </template>
 
 <script>
