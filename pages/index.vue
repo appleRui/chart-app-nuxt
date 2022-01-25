@@ -15,7 +15,5 @@ export default {
       prefectures: data.result,
     };
   },
-  created() {
-  }
 }
 </script>

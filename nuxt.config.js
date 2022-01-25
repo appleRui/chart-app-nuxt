@@ -1,10 +1,6 @@
-const {
-  API_KEY,
-} = process.env;
-
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: true,
+  ssr: false,
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -47,7 +43,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/axios'
+    '@/plugins/axios',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -63,6 +59,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    'nuxt-highcharts',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -83,6 +80,6 @@ export default {
   build: {},
 
   publicRuntimeConfig: {
-    API_KEY: 'F23SFPU8HIS8zJqcJrzKc5HKRqx74dsJAOvH63fx',
+    API_KEY: process.env.API_KEY,
   },
 }
