@@ -1,6 +1,10 @@
+const {
+  API_KEY,
+} = process.env;
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
+  ssr: true,
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -9,7 +13,7 @@ export default {
   head: {
     title: 'chart-app',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ja'
     },
     meta: [{
         charset: 'utf-8'
@@ -42,7 +46,9 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    '~/plugins/axios'
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -60,8 +66,23 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    proxy: true,
+    prefix: '/api/',
+  },
+  proxy: {
+    '/api/': {
+      target: 'https://opendata.resas-portal.go.jp',
+      pathRewrite: {
+        '^/api/': ''
+      }
+    },
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {}
+  build: {},
+
+  publicRuntimeConfig: {
+    API_KEY: 'F23SFPU8HIS8zJqcJrzKc5HKRqx74dsJAOvH63fx',
+  },
 }
