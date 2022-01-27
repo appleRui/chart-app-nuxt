@@ -30,18 +30,32 @@ export default {
     }
   },
   methods: {
-    async switchChart(id, name, isChecked){
+      switchChart(id, name, isChecked){
+        if(isChecked){
+          this.deletePref(id);
+          }else{
+            this.feachPref(id, name, isChecked);
+        }
+      },
+    async feachPref(id, name, isChecked){
       const path = `/api/v1/population/composition/perYear?cityCode=-&prefCode=${id}`;
-      const res = await this.$axios.get(path);
-      const prefVal = res.data.result.data[0].data.map(
-          val => val.value
-        );
-      const prefData = {
-        id,
-        name,
-        data: prefVal,
-      };
-      this.$emit("addPref", prefData);
+      await this.$axios.get(path).then((res)=>{
+        const data = res.data.result.data[0].data.map(
+            val => val.value
+          );
+        const prefData = {
+          id, // Number
+          name, // String
+          data, // Array
+        };
+        this.$emit("addPref", prefData);
+      })
+      .catch((e) => {
+        alert(e.code + ":" + e.message);
+      });
+    },
+    deletePref(id){
+      this.$emit("removePref", id);
     }
   }
 }
@@ -58,5 +72,8 @@ export default {
 .prefecture {
   margin: 0.2rem 0.5rem;
   display: inline-block;
+}
+.prefecture__label {
+  cursor: pointer;
 }
 </style>

@@ -2,7 +2,11 @@
   <div id="app">
     <Header />
     <div class="container">
-      <Prefectures :prefectures="prefectures" @addPref="addPref" />
+      <Prefectures
+        :prefectures="prefectures"
+        @addPref="addPref"
+        @removePref="removePref"
+      />
       <highchart :options="options" />
     </div>
   </div>
@@ -11,17 +15,21 @@
 <script>
 export default {
   async asyncData({ $axios }){
-    const { data } = await $axios.get('/api/v1/prefectures');
-    const prefectures = data.result.map(val => {
-          return {
-            id: val.prefCode,
-            name: val.prefName,
-            isChecked: false
-          };
-        });
-    return {
-      prefectures,
-    };
+    try{
+      const { data } = await $axios.get('/api/v1/prefectures');
+      const prefectures = data.result.map(val => {
+            return {
+              id: val.prefCode, // Number
+              name: val.prefName, // String
+              isChecked: false // Boolean
+            };
+          });
+      return {
+        prefectures // Array
+      };
+    } catch (e) {
+      alert(e.code + ":" + e.message);
+    }
   },
   data(){
     return{
@@ -62,6 +70,11 @@ export default {
   methods: {
     addPref(prefData){
       this.options.series.push(prefData);
+      this.prefectures[prefData.id - 1].isChecked = true;
+    },
+    removePref(id){
+      this.options.series = this.options.series.filter(val => val.id !== id);
+      this.prefectures[id - 1].isChecked = false;
     }
   }
 }
