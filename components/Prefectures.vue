@@ -6,9 +6,16 @@
       :key="prefecture.prefCode"
       class="prefecture"
     >
-      <label :for="prefecture.prefCode" class="prefecture-label">
-        <input type="checkbox" class="prefecture-checkbox" />
-        {{ prefecture.prefName }}
+      <label :for="prefecture.prefCode" class="prefecture__label">
+        <input
+          class="prefecture__checkbox"
+          type="checkbox"
+          :checked="prefecture.isChecked"
+          @click="
+            switchChart(prefecture.id, prefecture.name, prefecture.isChecked)
+          "
+        />
+        {{ prefecture.name }}
       </label>
     </div>
   </div>
@@ -20,6 +27,21 @@ export default {
     prefectures: {
       type: Array,
       default: () => []
+    }
+  },
+  methods: {
+    async switchChart(id, name, isChecked){
+      const path = `/api/v1/population/composition/perYear?cityCode=-&prefCode=${id}`;
+      const res = await this.$axios.get(path);
+      const prefVal = res.data.result.data[0].data.map(
+          val => val.value
+        );
+      const prefData = {
+        id,
+        name,
+        data: prefVal,
+      };
+      this.$emit("addPref", prefData);
     }
   }
 }

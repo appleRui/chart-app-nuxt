@@ -2,7 +2,7 @@
   <div id="app">
     <Header />
     <div class="container">
-      <Prefectures :prefectures="prefectures" />
+      <Prefectures :prefectures="prefectures" @addPref="addPref" />
       <highchart :options="options" />
     </div>
   </div>
@@ -12,8 +12,15 @@
 export default {
   async asyncData({ $axios }){
     const { data } = await $axios.get('/api/v1/prefectures');
+    const prefectures = data.result.map(val => {
+          return {
+            id: val.prefCode,
+            name: val.prefName,
+            isChecked: false
+          };
+        });
     return {
-      prefectures: data.result,
+      prefectures,
     };
   },
   data(){
@@ -41,16 +48,20 @@ export default {
             title: {
               text: '人口数'
             },
+            labels: {
+              formatter() {
+                return this.value/10000 + '万';
+              }
+            }
           },
           // DrawingData Array<Object>
-          series: [
-            { 
-              id: 1,
-              name: "茨城県",
-              data: [1000,2000,3000,4000,5000,6000,7000,8000,8000,]
-            }
-          ],
+          series: [],
       },
+    }
+  },
+  methods: {
+    addPref(prefData){
+      this.options.series.push(prefData);
     }
   }
 }
