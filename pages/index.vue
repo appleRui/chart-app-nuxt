@@ -18,6 +18,7 @@ export default {
   },
   data(){
     return{
+      // HighchartOption
       options: {
           chart: {
             type: 'spline'
@@ -29,14 +30,27 @@ export default {
             text: 'from RESAS API'
           },
           xAxis: {
-            categories: ['1960','1965','1970','1975','1980','1985','1990','1995','2000','2005','2010','2015','2020','2025','2030','2035','2040','2045']
+            categories: ['1960','1965','1970','1975','1980','1985','1990','1995','2000','2005','2010','2015','2020','2025','2030','2035','2040','2045'],
+            labels: {
+              formatter() {
+                return this.value + '年';
+              }
+            }
           },
           yAxis: {
             title: {
               text: '人口数'
             },
-          }
-      }
+          },
+          // DrawingData Array<Object>
+          series: [
+            { 
+              id: 1,
+              name: "茨城県",
+              data: [1000,2000,3000,4000,5000,6000,7000,8000,8000,]
+            }
+          ],
+      },
     }
   }
 }
