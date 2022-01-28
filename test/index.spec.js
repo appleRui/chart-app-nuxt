@@ -13,5 +13,9 @@ describe('Index', () => {
       let wrapper = mount(Index)
       expect(wrapper.vm).toBeTruthy;
     });
+    test('Feach Prefectures From RESAS API', () => {
+      let wrapper = mount(Index)
+      expect(wrapper.vm.$props);
+    });
   });
 });
