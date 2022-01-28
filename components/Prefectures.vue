@@ -8,7 +8,7 @@
     >
       <label :for="prefecture.prefCode" class="prefecture__label">
         <input
-          class="prefecture__checkbox"
+          class="refecture__checkbox"
           type="checkbox"
           :checked="prefecture.isChecked"
           @click="
