@@ -1,7 +1,7 @@
 import {
   mount
-} from '@vue/test-utils'
-import Index from '@/pages/index'
+} from '@vue/test-utils';
+import Index from '@/pages/index';
 
 describe('Index', () => {
   describe('component', () => {

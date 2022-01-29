@@ -37,22 +37,22 @@ export default {
             this.feachPref(id, name, isChecked);
         }
       },
-    async feachPref(id, name, isChecked){
+    async feachPref(id, name){
       const path = `/api/v1/population/composition/perYear?cityCode=-&prefCode=${id}`;
-      await this.$axios.get(path).then((res)=>{
-        const data = res.data.result.data[0].data.map(
+      try {
+        const res = await this.$axios.$get(path);
+        const data = res.result.data[0].data.map(
             val => val.value
           );
-        const prefData = {
+          const prefData = {
           id, // Number
           name, // String
           data, // Array
         };
         this.$emit("addPref", prefData);
-      })
-      .catch((e) => {
-        alert(e.code + ":" + e.message);
-      });
+      }catch(e){
+        alert(e.code + ':' + e.message);
+      }
     },
     deletePref(id){
       this.$emit("removePref", id);
