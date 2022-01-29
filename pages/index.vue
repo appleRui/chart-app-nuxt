@@ -13,7 +13,12 @@
 </template>
 
 <script>
+import Prefectures from '@/components/Prefectures.vue';
+
 export default {
+  components: {
+    Prefectures,
+  },
   async asyncData({ $axios }){
     try{
       const { data } = await $axios.get('/api/v1/prefectures');
